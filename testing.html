@@ -62,7 +62,7 @@
 <div id="container">
     <!-- Left Panel for Facility List -->
     <div id="left-panel">
-        <div class="facility-card">
+        <div class="facility-card" id="facility-1">
             <h3>Green e-Bin E-waste Recycling</h3>
             <p>Capacity: 50</p>
             <p>Address: B-18, MIDC Industrial Area, Chikalthana, Aurangabad, Maharashtra 431006</p>
@@ -72,7 +72,7 @@
             <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
-        <div class="facility-card">
+        <div class="facility-card" id="facility-2">
             <h3>ERECON RECYCLING</h3>
             <p>Capacity: 80</p>
             <p>Address: Shri Krishna Colony, Chikalthana, Aurangabad, Maharashtra 431007</p>
@@ -82,7 +82,7 @@
             <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
-        <div class="facility-card">
+        <div class="facility-card" id="facility-3">
             <h3>PERFECT E-WASTE RECYCLERS</h3>
             <p>Capacity: 90</p>
             <p>Address: Plot No. A 8/1, MIDC Industrial Area, Aurangabad, Maharashtra 431007</p>
@@ -107,14 +107,46 @@
     }).addTo(map);
 
     var facilities = [
-        { name: 'Green e-Bin E-waste Recycling', lat: 19.8771, lng: 75.3437 },
-        { name: 'ERECON RECYCLING', lat: 19.8765, lng: 75.3440 },
-        { name: 'PERFECT E-WASTE RECYCLERS', lat: 19.8800, lng: 75.3500 }
+        { 
+            id: 'facility-1', 
+            name: 'Green e-Bin E-waste Recycling', 
+            lat: 19.8771, 
+            lng: 75.3437, 
+            image: 'https://via.placeholder.com/150', 
+            info: 'This facility recycles mobile phones.' 
+        },
+        { 
+            id: 'facility-2', 
+            name: 'ERECON RECYCLING', 
+            lat: 19.8765, 
+            lng: 75.3440, 
+            image: 'https://via.placeholder.com/150', 
+            info: 'This facility recycles laptops.' 
+        },
+        { 
+            id: 'facility-3', 
+            name: 'PERFECT E-WASTE RECYCLERS', 
+            lat: 19.8800, 
+            lng: 75.3500, 
+            image: 'https://via.placeholder.com/150', 
+            info: 'This facility recycles mixed e-waste.' 
+        }
     ];
 
     facilities.forEach(function(facility) {
         L.marker([facility.lat, facility.lng]).addTo(map)
-            .bindPopup(`<b>${facility.name}</b><br>Click on Get Directions for more details`);
+            .bindPopup(`
+                <b>${facility.name}</b><br>
+                <img src="${facility.image}" alt="${facility.name}" width="150" height="150"><br>
+                <p>${facility.info}</p>
+                <label for="user-input">Add your notes:</label><br>
+                <input type="text" id="user-input" placeholder="Enter information here">
+            `)
+            .on('click', function() {
+                // Scroll the corresponding facility card into view
+                var facilityElement = document.getElementById(facility.id);
+                facilityElement.scrollIntoView({ behavior: 'smooth' });
+            });
     });
 </script>
 
