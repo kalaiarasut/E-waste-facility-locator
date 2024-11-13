@@ -55,6 +55,50 @@
             width: 70%;
             height: 100%;
         }
+ 
+        #search-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        background-color: #f2f2f2; /* Light background for contrast */
+        border-radius: 8px;
+        margin-bottom: 15px; /* Space below search bar */
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    }
+
+    #search-input {
+        width: 70%;
+        padding: 10px;
+        border: 1px solid #28a745;
+        border-radius: 5px;
+        font-size: 16px;
+        outline: none;
+        box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    #search-input:focus {
+        border-color: #1e7e34; /* Darker green on focus */
+        box-shadow: 0px 0px 5px rgba(40, 167, 69, 0.5);
+    }
+
+    #search-button {
+        padding: 10px 20px;
+        margin-left: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-weight: bold;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    #search-button:hover {
+        background-color: #218838; /* Slightly darker on hover */
+    }
     </style>
 </head>
 <body>
@@ -62,6 +106,11 @@
 <div id="container">
     <!-- Left Panel for Facility List -->
     <div id="left-panel">
+
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search for a facility...">
+            <button id="search-button">Search</button>
+        </div>
 
         <div class="facility-card" id="facility-1">
             <h3>M/s A.K.Enterprises</h3>
@@ -804,23 +853,48 @@
 
 ];
 
+// Search functionality
+document.getElementById('search-button').addEventListener('click', function() {
+        var searchQuery = document.getElementById('search-input').value.toLowerCase();
+        var found = facilities.find(facility => facility.name.toLowerCase().includes(searchQuery));
 
+        if (found) {
+            map.setView([found.lat, found.lng], 13);  // Center map on searched facility
+            L.popup()
+                .setLatLng([found.lat, found.lng])
+                .setContent(`
+                    <b>${found.name}</b><br>
+                    <img src="${found.image}" alt="${found.name}" width="150" height="150"><br>
+                    <p>${found.info}</p>
+                    <p><b>Email:</b> ${found.email}</p>
+                `)
+                .openOn(map);
+            
+            // Scroll to the facility card
+            var facilityElement = document.getElementById(found.id);
+            facilityElement.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            alert('Facility not found');
+        }
+    });
+
+    // Add facility markers with scroll feature
     facilities.forEach(function(facility) {
         L.marker([facility.lat, facility.lng]).addTo(map)
             .bindPopup(`
                 <b>${facility.name}</b><br>
                 <img src="${facility.image}" alt="${facility.name}" width="150" height="150"><br>
                 <p>${facility.info}</p>
-                <p><b>Email:</b> ${facility.email}</p> <!-- Display email -->
+                <p><b>Email:</b> ${facility.email}</p>
                 <label for="user-input">Add your notes:</label><br>
                 <input type="text" id="user-input" placeholder="Enter information here">
             `)
             .on('click', function() {
-                // Scroll the corresponding facility card into view
                 var facilityElement = document.getElementById(facility.id);
                 facilityElement.scrollIntoView({ behavior: 'smooth' });
             });
     });
+
 </script>
 
 </body>
