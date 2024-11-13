@@ -3,10 +3,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
 
 :root {
- 
-  --white-color: hsl(0, 0%, 100%);
-  --black-color: hsl(0, 0%, 0%);
   
+  --white-color: hsl(104, 85%, 61%);
+  --black-color: hsl(0, 0%, 0%);
+ 
   --body-font: "Poppins", sans-serif;
   --h1-font-size: 1.75rem;
   --normal-font-size: 1rem;
@@ -30,7 +30,7 @@ button {
 }
 
 body {
-  color: var(--white-color);
+  color: var(--green-color);
 }
 
 input,
@@ -165,13 +165,13 @@ img {
   text-decoration: underline;
 }
 
-/* Input focus move up label */
+
 .login__input:focus + .login__label {
   top: -12px;
   font-size: var(--small-font-size);
 }
 
-/* Input focus sticky top label */
+
 .login__input:not(:placeholder-shown).login__input:not(:focus) + .login__label {
   top: -12px;
   font-size: var(--small-font-size);
