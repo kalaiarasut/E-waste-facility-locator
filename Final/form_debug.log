@@ -1,0 +1,11 @@
+Array
+(
+    [device] => dell
+    [price] => 1
+    [model] => dell1
+    [time] => 12:16
+    [location] => chennai
+    [date] => 2024-11-23
+    [phone] => 123
+    [facility] => M/s MG Traders
+)
