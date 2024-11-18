@@ -501,7 +501,9 @@
 
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script>
-    var map = L.map('map').setView([19.8762, 75.3433], 13); // Setting the view to Aurangabad, Maharashtra
+// Center the map on Chennai, India
+var map = L.map('map').setView([13.0827, 80.2707], 10);
+ // Setting the view to Aurangabad, Maharashtra
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
@@ -860,7 +862,8 @@ document.getElementById('search-button').addEventListener('click', function() {
         var found = facilities.find(facility => facility.name.toLowerCase().includes(searchQuery));
 
         if (found) {
-            map.setView([found.lat, found.lng], 13);  // Center map on searched facility
+            var map = L.map('map').setView([13.0827, 80.2707], 10);// Centered on Tamil Nadu
+
             L.popup()
                 .setLatLng([found.lat, found.lng])
                 .setContent(`
