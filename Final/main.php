@@ -23,7 +23,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #dff0d8;
         }
 
         /* Fixed menu bar styling */
@@ -85,7 +85,7 @@
             justify-content: space-between;
             padding: 4rem 5%;
             margin-top: 80px; 
-            background-color: #e0e7f1;
+            background-color: #dff0d8;
             min-height: 80vh;
         }
 
@@ -143,10 +143,25 @@
     border-radius: 8px;
 }
 
-
-        .faq-section h2 {
-            color: black;
-            margin-bottom: 20px;
+.card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card img {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .card-title {
+            color: #2e7d32;
+            font-size: 1.25rem;
+        }
+        .card-text {
+            color: #555;
         }
 
         .btn-link {
@@ -184,7 +199,7 @@
         .footer {
     background-color: #24262b;
     padding: 70px 0;
-    color: #ffffff;
+    color: #24262b;
 }
 .footer-container {
     max-width: 1200px;
@@ -208,6 +223,7 @@
 .footer-col ul {
     padding: 0;
     list-style: none;
+    
 }
 
 .footer-col h4 {
@@ -330,7 +346,7 @@
         <div class="logo">ELocate</div>
         <div class="menu">
             <a href="main.php">Home</a>
-            <a href="about.php">About</a>
+            <a href="about us.php">About</a>
             <a href="facility.php">E-Facilities</a>
             <a href="pickup.php">Recycle</a>
             <a href="timeline.php">Guidelines</a>
@@ -351,11 +367,45 @@
         </div>
     </section>
 
-    <!-- Page Content -->
-    <div class="content">
-        <h1>Welcome to ELocate</h1>
-        <p>Your technology partner for innovative and impactful E-Waste Facility Locator...</p>
+    <!-- Card Section -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Card 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="e8.jpg" class="card-img-top" width="600" height ="240">
+                    <div class="card-body">
+                        <h5 class="card-title">E-Waste Statistics</h5>
+                        <p class="card-text">Learn about the impact of electronic waste on the environment and the importance of responsible recycling.</p>
+                        <a href="impact.php" class="btn btn-success">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="e5.jpg" class="card-img-top" width="600" height ="240" >
+                    <div class="card-body">
+                        <h5 class="card-title">Rules for E-Waste Disposal </h5>
+                        <p class="card-text">Get practical advice on how to prepare and dispose of your old electronics in a safe manner.</p>
+                        <a href="terms.php" class="btn btn-success">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="e3.jpg" class="card-img-top" width="600" height ="240">
+                    <div class="card-body">
+                        <h5 class="card-title">Locate Recycling Centers</h5>
+                        <p class="card-text">Use our tool to find the nearest e-waste recycling facility and contribute to a cleaner planet.</p>
+                        <a href="facility.php" class="btn btn-success">Find Centers</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 
     <!-- FAQ Section -->
     <div class="container mt-5">
@@ -528,7 +578,7 @@
             <div class="footer-col">
                 <h4>Company</h4>
                 <ul>
-                    <li><a href="About us1.php">About Us</a></li>
+                    <li><a href="About us.php">About Us</a></li>
                     <li><a href="terms.php">Terms and Conditions</a></li>
                     <li><a href="privacy.php">Privacy Policy</a></li>
                 </ul>
@@ -560,9 +610,13 @@
                     <a href="http://www.instagram.com"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 </div>
-            </div>
+            </div>  
         </div>
     </div>
 </footer>
+<!-- Bootstrap JS (optional for interactive components) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
