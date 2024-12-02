@@ -54,28 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Sign Up Options</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Basic reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Body style */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Fixed menu bar styling */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: #f1f8f4; /* Adjust color as needed */
+            background-color: #f1f8f4;
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
@@ -84,31 +71,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             z-index: 1000;
         }
 
-        /* Logo styling */
         .navbar .logo {
             font-size: 1.5rem;
-            color: #2e7d32; /* Adjust color as needed */
+            color: #2e7d32;
             font-weight: bold;
-        }
-
-        /* Menu links styling */
-        .navbar .menu {
-            display: flex;
-            gap: 2rem;
         }
 
         .navbar .menu a {
             text-decoration: none;
             color: #333;
             font-weight: 500;
+            margin: 0 10px;
         }
 
         .navbar .menu a:hover {
-            color: #2e7d32; /* Adjust hover color as needed */
+            color: #2e7d32;
         }
 
-        /* Signup button styling */
-        .navbar .signup-btn {
+        .login-btn {
             padding: 0.5rem 1.5rem;
             background-color: #2e7d32;
             color: #fff;
@@ -116,77 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
-        }
-
-        .navbar .signup-btn:hover {
-            background-color: #1b5e20;
-        }
-
-        /* Sign-up form container */
-        .signup-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            margin-top: 120px; /* Space for fixed navbar */
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .signup-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .error {
-            color: red;
-            font-size: 12px;
-        }
-
-        .message {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 16px;
-            color: green;
-        }
-
-        /* Placeholder content for scrolling */
-        .content {
-            padding-top: 100px; /* Space for fixed navbar */
-            padding: 2rem;
-            height: 2000px; /* Makes the page scrollable */
-            background-color: #f9f9f9;
+        .login-btn:hover {
+            background-color: #1b5e20;
         }
     </style>
 </head>
@@ -201,76 +115,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <a href="facility.php">E-Facilities</a>
             <a href="pickup.php">Book a Service</a>
             <a href="timeline.php">Guidelines</a>
-            <a href="contactus.php">Contact Us</a>
+            <a href="login.php" class="login-btn">Login</a>
         </div>
-        <a href="login.php" class="signup-btn">Login</a>
     </nav>
 
-    <!-- Sign-Up Form -->
-    <div class="signup-container">
-        <h2>Sign Up</h2>
-        <form action="signup.php" method="POST" id="signupForm" onsubmit="return validateForm()">
-            
-            <!-- Username Field -->
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-
-            <!-- Email Field -->
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <span id="emailError" class="error"></span>
-
-            <!-- Password Field -->
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-
-            <!-- Mobile Number Field -->
-            <label for="mobile">Mobile No:</label>
-            <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" maxlength="10" required placeholder="Enter 10-digit mobile number">
-            <span id="mobileError" class="error"></span>
-
-            <!-- City Field -->
-            <label for="city">City:</label>
-            <input type="text" id="city" name="city" required placeholder="Enter your city">
-
-            <button type="submit">Sign Up</button>
-        </form>
-
-        <!-- Display success/error message -->
-        <div class="message">
-           <pre> <?php echo $message; ?>
-            
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signupModalLabel">Choose Signup Type</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mb-4">Please select your signup option:</p>
+                    <a href="usersignup.php" class="btn btn-primary btn-lg w-75 mb-3">User Signup</a>
+                    <a href="managersignup.php" class="btn btn-secondary btn-lg w-75">Manager Signup</a>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Function to validate the form before submission
-        function validateForm() {
-            // Validate Email
-            var email = document.getElementById('email').value;
-            var emailError = document.getElementById('emailError');
-            var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (!emailRegex.test(email)) {
-                emailError.textContent = "Invalid email format.";
-                return false;  // Prevent form submission
-            } else {
-                emailError.textContent = "";
-            }
-
-            // Validate Mobile Number
-            var mobile = document.getElementById('mobile').value;
-            var mobileError = document.getElementById('mobileError');
-            var mobileRegex = /^[0-9]{10}$/;  // Validates a 10-digit number
-            if (!mobileRegex.test(mobile)) {
-                mobileError.textContent = "Please enter a valid 10-digit mobile number.";
-                return false;  // Prevent form submission
-            } else {
-                mobileError.textContent = "";
-            }
-
-            return true;  // If everything is valid, the form will be submitted
-        }
+        // Automatically show the modal when the page loads
+        window.onload = () => {
+            const signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
+            signupModal.show();
+        };
     </script>
-
 </body>
 </html>

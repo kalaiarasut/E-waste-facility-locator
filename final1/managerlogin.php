@@ -1,4 +1,5 @@
 <?php
+// Start session
 session_start();
 
 // Database connection details
@@ -17,53 +18,45 @@ if ($conn->connect_error) {
 
 // Initialize variables
 $error_message = '';
+
+// Process login form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['login_type'])) {
-        $login_type = $_POST['login_type'];
-        $email = $conn->real_escape_string($_POST['email']);
-        $password = $conn->real_escape_string($_POST['password']);
+    if (isset($_POST['Company_name'], $_POST['comany_id'])) {
+        // Retrieve and sanitize form inputs
+        $Company_name = $conn->real_escape_string($_POST['Company_name']);
+        $comany_id = $conn->real_escape_string($_POST['comany_id']);
 
-        if ($login_type === 'user') {
-            // User login
-            $query = "SELECT * FROM signup WHERE email = ?";
-        } elseif ($login_type === 'manager') {
-            // Manager login
-            $query = "SELECT * FROM managersignup WHERE email = ?";
-        }
-
+        // Prepare the SQL query to check for a matching Company Name and Company ID
+        $query = "SELECT * FROM managersignup WHERE Company_name = ? AND comany_id = ?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("ss", $Company_name, $comany_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows == 1) {
+            // Valid login: Fetch user details
             $user = $result->fetch_assoc();
-            if (password_verify($password, $user['password'])) {
-                // Store session data
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'] ?? $user['UserName']; // Adjust for table differences
-                $_SESSION['login_type'] = $login_type;
 
-                // Redirect to appropriate dashboard
-                if ($login_type === 'user') {
-                    header("Location: user_dashboard.php");
-                } else {
-                    header("Location: manager_dashboard.php");
-                }
-                exit();
-            } else {
-                $error_message = "Invalid email or password.";
-            }
+            // Store user details in the session
+            $_SESSION['manager_id'] = $user['id'];
+            $_SESSION['manager_name'] = $user['UserName'];
+            $_SESSION['company_name'] = $user['Company_name'];
+
+            // Redirect to dashboard or desired page
+            header("Location: admin.php");
+            exit();
         } else {
-            $error_message = "Invalid email or password.";
+            $error_message = "Invalid Company Name or Company ID. Please try again.";
         }
 
+        // Close the statement
         $stmt->close();
     } else {
-        $error_message = "Please select a login type.";
+        $error_message = "Please fill in all the required fields.";
     }
 }
 
+// Close the database connection
 $conn->close();
 ?>
 
@@ -72,14 +65,12 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Modal with Navbar</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Manager Login</title>
     <style>
-        {
+        /* Reset and basic styles */
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -153,9 +144,8 @@ $conn->close();
         }
     </style>
 </head>
-<body>
+body>
 
-    <!-- Navbar -->
     <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">ELocate</div>
@@ -170,31 +160,46 @@ $conn->close();
         <a href="signup.php" class="signup-btn">Signup</a>
     </nav>
 
-    <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Choose Login Type</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Login Form -->
+    <div class="login">
+        <form action="" method="POST" class="login__form">
+            <h1 class="login__title">Login</h1>
+
+            <!-- Display error message -->
+            <?php if (!empty($error_message)): ?>
+                <p style="color: red; text-align: center;"><?php echo $error_message; ?></p>
+            <?php endif; ?>
+
+            <div class="login__content">
+                <div class="login__box">
+                    <i class="ri-user-3-line login__icon"></i>
+                    <div class="login__box-input">
+                        <label for="Company_name" class="form-label">Company Name</label>
+                        <input type="text" class="form-control" id="Company_name" name="Company_name"  required>
                 </div>
-                <div class="modal-body text-center">
-                    <p class="mb-4">Please select your login option:</p>
-                    <a href="userlogin.php" class="btn btn-primary btn-lg w-75 mb-3">User Login</a>
-                    <a href="managerlogin.php" class="btn btn-secondary btn-lg w-75">Manager Login</a>
+                </div>
+
+                <div class="login__box">
+                    <i class="ri-lock-2-line login__icon"></i>
+                    <div class="login__box-input">
+                        <label for="comany_id" class="form-label">Company ID</label>
+                    <input type="text" class="form-control" id="comany_id" name="comany_id"  required>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="login__check">
+                <div class="login__check-group">
+                    <input type="checkbox" id="login-check">
+                    <label for="login-check">Remember me</label>
+                </div>
+                <a href="#" class="login__forgot">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="login__button">Login</button>
+            <p>Don't have an account? <a href="signup.php"><b>Sign Up</b></a></p>
+        </form>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Automatically show the modal when the page loads
-        window.onload = () => {
-            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-            loginModal.show();
-        };
-    </script>
 </body>
 </html>

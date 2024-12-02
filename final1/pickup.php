@@ -1,58 +1,59 @@
 <?php
-// Enable error reporting for debugging (remove in production)
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Start session to manage user login state
+// Start the session at the top of the page
 session_start();
 
-// Redirect to login page if not logged in
+// Check if the user is logged in (email should be available in the session)
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php?message=Please log in first.");
     exit();
 }
 
-// Retrieve user's email from session
-$user_email = $_SESSION['email']; // Store user's email from session
+// Retrieve the email from the session
+$email = $_SESSION['email'];  // Ensure the email is set in session during login
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['device'], $_POST['price'], $_POST['model'], $_POST['time'], $_POST['location'], $_POST['date'], $_POST['phone'], $_POST['facility'])) {
+// Process pickup form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Retrieve form data
     $device = $_POST['device'];
     $price = $_POST['price'];
     $model = $_POST['model'];
-    $time = $_POST['time'];
     $location = $_POST['location'];
-    $date = $_POST['date'];
+    $time = $_POST['time'];
     $phone = $_POST['phone'];
+    $date = $_POST['date'];
     $facility = $_POST['facility'];
-
-    // Debug: Print submitted form data
-    error_log(print_r($_POST, true), 3, "form_debug.log");
 
     // Database connection
     $conn = new mysqli('localhost', 'root', '', 'pickup');
 
+    // Check for connection errors
     if ($conn->connect_error) {
-        die("Database Connection Failed: " . $conn->connect_error);
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    // Prepare statement to insert data into the database
-    $stmt = $conn->prepare("INSERT INTO pickupdetails (device, price, model, time, location, date, phone, facility, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    if (!$stmt) {
-        die("Prepare failed: " . $conn->error);
+    // Ensure the 'status' column exists in the 'pickupdetails' table
+    $addStatusColumnQuery = "ALTER TABLE pickupdetails ADD COLUMN IF NOT EXISTS status VARCHAR(20) DEFAULT 'pending'";
+    $conn->query($addStatusColumnQuery);
+
+    // Prepare the SQL statement to insert pickup details with the status
+    $stmt = $conn->prepare("INSERT INTO pickupdetails (email, price, device, model, location, time, phone, date, facility, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
+
+    // Check if prepare() was successful
+    if ($stmt === false) {
+        die("Error preparing the statement: " . $conn->error);
     }
 
-    // Bind parameters (added email parameter)
-    $stmt->bind_param("sssssssss", $device, $price, $model, $time, $location, $date, $phone, $facility, $user_email);
+    // Bind parameters to the SQL query
+    $stmt->bind_param("sssssssss", $email, $price, $device, $model, $location, $time, $phone, $date, $facility);
 
-    // Execute statement
+    // Execute the statement
     if ($stmt->execute()) {
-        echo "<script>alert('Registration successful!');</script>";
+        echo "<script>alert('Pickup request submitted successfully!'); window.location.href='pickup.php';</script>";
     } else {
         echo "Error: " . $stmt->error;
-        error_log("SQL Error: " . $stmt->error, 3, "sql_error.log");
     }
 
+    // Close statement and connection
     $stmt->close();
     $conn->close();
 }
@@ -112,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['device'], $_POST['pric
     .navbar .signup-btn:hover {
       background-color: #1b5e20;
     }
+
     body {
       font-family: Arial, sans-serif;
       background-color: #e8f5e9;
@@ -121,7 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['device'], $_POST['pric
       height: 100vh;
       margin: 0;
     }
-    
 
     .pickup-container {
       background-color: #fff;
@@ -215,8 +216,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['device'], $_POST['pric
       <a href="contactus.php">Contact Us</a>
     </div>
     <a href="login.php" class="signup-btn">Login</a>
-  </nav> 
-  <div class="pickup-container">
+</nav> 
+<div class="pickup-container">
     <h1>Schedule Your E-Waste Pickup</h1>
     <p class="subheading">Book a pickup and recycle responsibly today.</p>
 
@@ -272,7 +273,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['device'], $_POST['pric
         <button type="submit" id="submitBtn">Schedule Pickup</button>
       </div>
     </form>
-  </div>
+</div>
+
 
   <script>
     const facilitiesByDistrict = {
@@ -292,18 +294,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['device'], $_POST['pric
     const locationSelect = document.getElementById("location");
     const facilitySelect = document.getElementById("facility");
 
-    locationSelect.addEventListener("change", function() {
-      const district = locationSelect.value;
-      facilitySelect.innerHTML = '<option value="">Select Facility</option>';
-
-      if (district && facilitiesByDistrict[district]) {
-        facilitiesByDistrict[district].forEach(facility => {
-          const option = document.createElement("option");
-          option.value = facility;
-          option.textContent = facility;
-          facilitySelect.appendChild(option);
-        });
-      }
+    locationSelect.addEventListener("change", () => {
+        const district = locationSelect.value;
+        facilitySelect.innerHTML = '<option value="">Select Facility</option>';
+        if (facilitiesByDistrict[district]) {
+            facilitiesByDistrict[district].forEach(facility => {
+                const option = document.createElement("option");
+                option.value = facility;
+                option.textContent = facility;
+                facilitySelect.appendChild(option);
+            });
+        }
     });
 
     document.getElementById("pickupForm").addEventListener("submit", function(event) {
