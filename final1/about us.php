@@ -10,6 +10,47 @@
             background-color: #e8f5e9; /* Light green background */  
             color: #2e7d32; /* Darker green for text */  
         }  
+        /* Navbar styling */
+    .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: #f1f8f4;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: center; /* Center the content */
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .navbar .logo {
+        font-size: 1.5rem;
+        color: #2e7d32;
+        font-weight: bold;
+        margin-right: 30px; /* Space between logo and menu */
+    }
+
+    /* Menu links */
+    .navbar .menu {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .navbar .menu a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        padding: 8px 12px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .navbar .menu a:hover {
+        color: #fff;
+        background-color: #2e7d32;
+    }
+
 
         h1, h2 {  
             color: #1b5e20; /* Dark green for headings */  
@@ -38,13 +79,18 @@
 </head>  
 <body>  
 
-<header class="header text-center">  
-    <h1>E-Waste Facility Locator</h1>  
-    <p>Your guide to responsible e-waste disposal</p>  
-</header>  
-
-<div class="container mt-5 mb-5">  
-
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">ELocate</div>
+    <div class="menu">
+        <a href="admin.php">Home</a>
+        <a href="about us.php">About</a>
+        <a href="fa.php">E-Facilities</a>
+        <a href="pickup.php">Book a Service</a>
+        <a href="timeline.php">Guidelines</a>
+        <a href="contactus.php">Contact Us</a>
+    </div>
+</nav>
     
 
     <!-- About Us Section -->  
@@ -150,7 +196,7 @@ Our vision is to foster a future where e-waste is managed responsibly by all. By
                 <p>Over 50 million tons of e-waste are produced globally each year.</p>
             </div>
             <div class="col-md-4">
-                <img src="e18.jpg" alt="Fact 2" class="img-fluid">
+                <img src="e18.jpg" height="300" width="450">
                 <p>Only 20% of e-waste is formally recycled, while the rest ends up in landfills.</p>
             </div>
             <div class="col-md-4">

@@ -100,9 +100,9 @@ $result = $stmt->get_result();
 
     /* Container for main content */
     .container {
-        max-width: 900px;
-        margin: 50px auto 20px;  /* Reduced margin-top from 100px to 50px */
-        padding: 20px;
+        max-width: 1150px;
+        margin: 10px auto 20px;  /* Reduced margin-top from 100px to 50px */
+        padding: 10px;
         background-color: white;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -193,7 +193,7 @@ $result = $stmt->get_result();
     <div class="menu">
         <a href="admin.php">Home</a>
         <a href="about us.php">About</a>
-        <a href="facility.php">E-Facilities</a>
+        <a href="fa.php">E-Facilities</a>
         <a href="pickup.php">Book a Service</a>
         <a href="timeline.php">Guidelines</a>
         <a href="contactus.php">Contact Us</a>
@@ -208,28 +208,33 @@ $result = $stmt->get_result();
         <table>
             <thead>
                 <tr>
+                <th>Email</th>
                     <th>Device</th>
                     <th>Model</th>
                     <th>Price</th>
                     <th>Pickup Date</th>
                     <th>Location</th>
                     <th>Pickup Time</th>
-                    <th>Status</th>
+                    <th>phone Number</th>
+                    <th>status</th>  <!-- New Column for Phone Number -->
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
+                    <td><?php echo htmlspecialchars($row['email']); ?></td> <!-- Display email -->
                         <td><?php echo htmlspecialchars($row['device']); ?></td>
                         <td><?php echo htmlspecialchars($row['model']); ?></td>
                         <td><?php echo htmlspecialchars($row['price']); ?></td>
                         <td><?php echo htmlspecialchars($row['date']); ?></td>
                         <td><?php echo htmlspecialchars($row['location']); ?></td>
                         <td><?php echo htmlspecialchars($row['time']); ?></td>
+                        <td><?php echo htmlspecialchars($row['phone']); ?></td>
                         <td class="status <?php echo strtolower($row['status']); ?>">
                             <?php echo ucfirst($row['status']); ?>
                         </td>
+                          <!-- Display Phone Number -->
                         <td class="buttons">
                             <form method="POST">
                                 <input type="hidden" name="booking_id" value="<?php echo $row['id']; ?>">

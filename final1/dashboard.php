@@ -46,6 +46,7 @@ $stmt->close();
 $conn->close();
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,8 +97,8 @@ $conn->close();
 
     /* Container Styling */
     .container {
-      max-width: 900px;
-      margin: 10px auto 20px;
+      max-width: 1300px;
+      margin: 5px auto 20px;
       padding: 20px;
       background-color: white;
       border-radius: 8px;
@@ -131,18 +132,31 @@ $conn->close();
       background-color: #f9f9f9;
     }
 
-    /* Delete Button Styling */
-    .delete-button {
+    /* Buttons Styling */
+    .delete-button, .payment-button {
       background-color: #d9534f;
       color: white;
-      padding: 5px 10px;
+      padding: 5px 5px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+    .payment-button {
+      background-color: #28a745;
     }
     .delete-button:hover {
       background-color: #c9302c;
+    }
+    .payment-button:hover {
+      background-color: #218838;
+    }
+
+    /* Flexbox for Buttons */
+    td div {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     /* Status Column Styling */
@@ -186,8 +200,8 @@ $conn->close();
   <div class="logo">ELocate</div>
   <div class="menu">
     <a href="main.php">Home</a>
-    <a href="about us.php">About</a>
-    <a href="facility.php">E-Facilities</a>
+    <a href="aboutus.php">About</a>
+    <a href="fa.php">E-Facilities</a>
     <a href="pickup.php">Book a Service</a>
     <a href="timeline.php">Guidelines</a>
     <a href="contactus.php">Contact Us</a>
@@ -202,38 +216,58 @@ $conn->close();
     <table>
       <thead>
         <tr>
+        <th>Customer ID</th>
           <th>Device</th>
           <th>Model</th>
+          <th>Facility</th>
           <th>Price</th>
           <th>Pickup Date</th>
           <th>Location</th>
           <th>Pickup Time</th>
+          <th>Phone No</th>
           <th>Status</th>
-          <th>Action</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <?php while ($row = $result->fetch_assoc()): ?>
           <tr>
+          <td><?php echo htmlspecialchars($row['customer_id']); ?></td>
             <td><?php echo htmlspecialchars($row['device']); ?></td>
             <td><?php echo htmlspecialchars($row['model']); ?></td>
+            <td><?php echo htmlspecialchars($row['facility']); ?></td>
             <td><?php echo htmlspecialchars($row['price']); ?></td>
             <td><?php echo htmlspecialchars($row['date']); ?></td>
             <td><?php echo htmlspecialchars($row['location']); ?></td>
             <td><?php echo htmlspecialchars($row['time']); ?></td>
-            <td class="status <?php echo strtolower($row['status']); ?>">
-              <?php echo ucfirst($row['status']); ?>
-            </td>
-            <td>
-              <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this booking?');">
-                <input type="hidden" name="delete_id" value="<?php echo htmlspecialchars($row['id']); ?>">
-                <button type="submit" class="delete-button">Delete</button>
-              </form>
-            </td>
+            <td><?php echo htmlspecialchars($row['phone']); ?></td>
+
+            <td class="status <?php echo strtolower(str_replace(' ', '-', $row['status'])); ?>">
+    <?php echo ucfirst($row['status']); ?>
+</td>
+<td>
+    <div>
+        <?php if (strtolower($row['status']) === 'accepted'): ?>
+            <form action="payment.php" method="GET">
+                <input type="hidden" name="customer_id" value="<?php echo htmlspecialchars($row['customer_id']); ?>">
+                <input type="hidden" name="phone" value="<?php echo htmlspecialchars($row['phone']); ?>">
+                <button type="submit" class="payment-button">Proceed to Payment</button>
+            </form>
+        <?php elseif (strtolower($row['status']) === 'payment completed'): ?>
+          <button type="submit" class="payment-button">Payment Completed</buttom>
+        <?php endif; ?>
+        <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this booking?');">
+            <input type="hidden" name="delete_id" value="<?php echo htmlspecialchars($row['id']); ?>">
+            <button type="submit" class="delete-button">Delete</button>
+        </form>
+    </div>
+</td>
+
           </tr>
         <?php endwhile; ?>
-            </tbody>
-        </table>
+      </tbody>
+
+
     <?php else: ?>
         <center><p>No past bookings found. Please schedule a pickup!</p></center>
         <div style="text-align: center; margin-top: 20px; padding: 10px; border-top: 1px solid #ccc;">

@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-waste Facility Locator</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-sA+FjMAJ3I66XPHdAq0AYZoF4bdi8QilAvtFZN/13KA=" crossorigin=""/>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9Cj09T/U4o6JzUJz05KpiXT8dXw//5UQusQda/I04E=" crossorigin=""></script>
+
+
     <style>
         * {
             margin: 0;
@@ -18,7 +25,6 @@
             display: flex;
             height: 100vh;
         }
-        /* Left Panel */
         #left-panel {
             width: 30%;
             background-color: #f4f4f4;
@@ -50,116 +56,101 @@
         .facility-card button:hover {
             background-color: #218838;
         }
-        /* Map Panel */
         #map {
-            width: 70%;
-            height: 100%;
-        }
- 
+    position: relative;
+    z-index: 1;
+}
+
         #search-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 15px;
-        background-color: #f2f2f2; /* Light background for contrast */
-        border-radius: 8px;
-        margin-bottom: 15px; /* Space below search bar */
-        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
-    }
-
-    #search-input {
-        width: 70%;
-        padding: 10px;
-        border: 1px solid #28a745;
-        border-radius: 5px;
-        font-size: 16px;
-        outline: none;
-        box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    #search-input:focus {
-        border-color: #1e7e34; /* Darker green on focus */
-        box-shadow: 0px 0px 5px rgba(40, 167, 69, 0.5);
-    }
-
-    #search-button {
-        padding: 10px 20px;
-        margin-left: 10px;
-        background-color: #28a745;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        font-weight: bold;
-        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    #search-button:hover {
-        background-color: #218838; /* Slightly darker on hover */
-    }
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background-color: #f2f2f2;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        #search-input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #28a745;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+        #search-button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #search-button:hover {
+            background-color: #218838;
+        }
+        .highlight {
+            background-color: #f0f0f0;
+            border: 2px solid #28a745;
+        }
     </style>
 </head>
 <body>
 
 <div id="container">
-    <!-- Left Panel for Facility List -->
     <div id="left-panel">
-
         <div id="search-container">
             <input type="text" id="search-input" placeholder="Search for a facility...">
             <button id="search-button">Search</button>
         </div>
-
         <div class="facility-card" id="facility-1">
             <h3>M/s A.K.Enterprises</h3>
             <p>Capacity: 170 T/Annum</p>
             <p>Address: No:12, Chakarapani Street, Velacherry, Chennai – 600 0032.</p>
             <p>Contact: 9176664862</p>
             <p>Email: akenter06@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-1">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
-        
         <div class="facility-card" id="facility-2">
             <h3>M/s Abishek Enterprises</h3>
             <p>Capacity: 6000 T/Annum</p>
             <p>Address: SF No. 2G, North Phase, Ambattur, Chennai – 600098.</p>
             <p>Contact: 9884057878</p>
             <p>Email: enterprisesabishek@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-2">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
-        
         <div class="facility-card" id="facility-3">
             <h3>M/s AER Worldwide India Pvt Ltd</h3>
             <p>Capacity: 12000 T/Annum</p>
             <p>Address: SF No.774, Elandandheri, Sadayankuppam village, Manali New Town, Chennai – 600103.</p>
             <p>Contact: 9940105999</p>
             <p>Email: jkumar@aerworldwide.com, akaja@aerworld.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-3">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
-        
         <div class="facility-card" id="facility-4">
             <h3>M/s Arockia Enterprises</h3>
             <p>Capacity: 216 T/Annum</p>
             <p>Address: S.F.No.4/1E, Seevaram village, Sholinganallur taluk, Chennai – 600 097</p>
             <p>Contact: 9551044431</p>
             <p>Email: associates.grid@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
-        </div>
-        
+            <button class="get-directions" data-id="facility-4">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
+        </div>    
         <div class="facility-card" id="facility-5">
             <h3>M/s Ascent Urban Recyclers Pvt Limited</h3>
             <p>Capacity: 400 T/Annum</p>
             <p>Address: SF No.62/1B, 2A2, Padur Road, Mevalurkuppam village, Sriperumbudur taluk, Kancheepuram district, Pin - 602 105.</p>
             <p>Contact: 9790099016</p>
             <p>Email: santhosh@ascentedigit.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-5">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-6">
@@ -168,8 +159,8 @@
             <p>Address: Plot. No. D9/2, SIDCO Industrial Estate, Maraimalai Nagar, Kizhikaranai village, Chengalpattu district.</p>
             <p>Contact: 9840160149</p>
             <p>Email: bloomingrecycles@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-6">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-7">
@@ -178,8 +169,8 @@
             <p>Address: SF No. 247, Thenmelpakkam village, Chengalpattu taluk, Chengalpattu district.</p>
             <p>Contact: 9962222459</p>
             <p>Email: ewastechennai@earthsense.in</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-7">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-8">
@@ -188,8 +179,8 @@
             <p>Address: No.154A/B, 8th Mahatma Gandhi Road, Tass Industrial Estate, Ambattur, Chennai – 600098.</p>
             <p>Contact: 9500101738</p>
             <p>Email: Ravi.shastry@ecosible.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-8">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-9">
@@ -198,8 +189,8 @@
             <p>Address: c/o Bharat Electronics Limited, SF No 3 & 10/1 Nanthambakkam village, Alandur taluk, Chengalpattu district.</p>
             <p>Contact: --</p>
             <p>Email: --</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-9">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-10">
@@ -208,8 +199,8 @@
             <p>Address: SF No. 2134, Palur village, Chengalpattu taluk, Chengalpattu district.</p>
             <p>Contact: 9445050342</p>
             <p>Email: envirogreenewaste@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-10">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-11">
@@ -218,8 +209,8 @@
             <p>Address: SF No: 254/2A2A, Mevalurkuppam village, Sriperumbudur taluk, Kancheepuram district.</p>
             <p>Contact: 9789092500</p>
             <p>Email: gsenterprises@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-11">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-12">
@@ -228,8 +219,8 @@
             <p>Address: SF No. 294/pt, Ayanambakkam village, Poonamallee taluk, Tiruvallur district.</p>
             <p>Contact: 9566214845</p>
             <p>Email: stephen.greenewaste@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-12">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-13">
@@ -238,8 +229,8 @@
             <p>Address: SF No. 344/2, Kavundampalayam village, Coimbatore North taluk, Coimbatore district – 641 025.</p>
             <p>Contact: 9965664526, 8300223526</p>
             <p>Email: prasanth@thegreenera.in</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-13">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-14">
@@ -248,8 +239,8 @@
             <p>Address: SF No. 26/1B, Kovilpalayam road, Soolakkal village, Kinathukadavu taluk, Coimbatore – 642 110.</p>
             <p>Contact: 9003491034, 9894940304</p>
             <p>Email: info@greenindiarecyclers.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-14">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-15">
@@ -258,8 +249,8 @@
             <p>Address: DP No. AC-31/24, Thirumudivakkam village, Kundrathur taluk, Kancheepuram district.</p>
             <p>Contact: 9444446229</p>
             <p>Email: info@inaaenterprises.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-15">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-16">
@@ -268,8 +259,8 @@
             <p>Address: SF No.256/1A1, Kollur village, Kilikodi post, Ponneri taluk, Tiruvallur district - 601206.</p>
             <p>Contact: 7373919322</p>
             <p>Email: jadgewaste@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-16">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-17">
@@ -278,8 +269,8 @@
             <p>Address: SF No.144/1C2, Kerekodihalli village, Karimangalam taluk, Dharmapuri district.</p>
             <p>Contact: 7904574355</p>
             <p>Email: johnfirm2022@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-17">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-18">
@@ -288,8 +279,8 @@
             <p>Address: No. 535-3C, Santhavellore village, Sunguvarchatram post, Sriperumbudur taluk, Kancheepuram district.</p>
             <p>Contact: 9940858828</p>
             <p>Email: 82.sathya@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-18">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-19">
@@ -298,8 +289,8 @@
             <p>Address: No.48 A, Dr Ambedkar College Road, Erukkenchery village, Perambur taluk, Chennai district.</p>
             <p>Contact: 9382600144</p>
             <p>Email: sonyfarooqzaid@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-19">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-20">
@@ -308,8 +299,8 @@
             <p>Address: SF No. 41/1 part, Cuddaloor village, Chengalpattu taluk, Chengalpattu district.</p>
             <p>Contact: 9380888877</p>
             <p>Email: info@leelatraders.co.in, v.kumaran@hotmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-20">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         <div class="facility-card" id="facility-21">
             <h3>M/s Micro E–Waste Recyclers</h3>
@@ -317,8 +308,8 @@
             <p>Address: No. 3/3B, Chennai Bye Pass Road, Senthaneerpuram, Trichy – 620 004.</p>
             <p>Contact: 9443141600</p>
             <p>Email: microrecyclers@yahoo.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-21">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-22">
@@ -327,8 +318,8 @@
             <p>Address: No. 86, Nehru Street, Teachers Colony, Ambattur, Chennai – 600053.</p>
             <p>Contact: --</p>
             <p>Email: --</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-22">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-23">
@@ -337,8 +328,8 @@
             <p>Address: SF No. 216/3, Tiruvallur village, Tiruvallur taluk, Tiruvallur district.</p>
             <p>Contact: 9677462993</p>
             <p>Email: ponniammanenterprises@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-23">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-24">
@@ -347,8 +338,8 @@
             <p>Address: No.113/19 Part, Rajiv Nagar, Perinjambakkam, Gunduperumbedu Post, Sirperumbudur taluk, Kancheepuram district. Pin – 601 301.</p>
             <p>Contact: 9840611027</p>
             <p>Email: punithanenterprises@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-24">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-25">
@@ -357,8 +348,8 @@
             <p>Address: Plot No.229, 9th Street, Ambattur, Chennai – 600098.</p>
             <p>Contact: 9094032959</p>
             <p>Email: rmcomputersin@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-25">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-26">
@@ -367,8 +358,8 @@
             <p>Address: SF No. 205-1B2A, Kandur village, Sriperumbudur taluk, Kancheepuram district.</p>
             <p>Contact: 9444055770</p>
             <p>Email: rbiaminerals@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-26">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-27">
@@ -377,8 +368,8 @@
             <p>Address: SF No 443/1B2, 443/2A, Padaveedu village, Kumarapalayam taluk, Kumarapalayam district.</p>
             <p>Contact: 9942429447</p>
             <p>Email: info@saiwaste.in</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-27">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-28">
@@ -387,8 +378,8 @@
             <p>Address: Plot No.154 A&B, Tass Industrial Area, Ambattur SIDCO Industrial Estate, Chennai – 600 098.</p>
             <p>Contact: 9094345145</p>
             <p>Email: info@skvewaste.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-28">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-29">
@@ -397,8 +388,8 @@
             <p>Address: S.No.184-4C, Mambakkam village, Sriperumbudur taluk, Kancheepuram district.</p>
             <p>Contact: 7299917239</p>
             <p>Email: sppenterprices@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-29">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-30">
@@ -407,8 +398,8 @@
             <p>Address: No.DP-29, SIDCO Industrial Estate, SIPCOT Industrial Complex, Gummidipoondi, Tiruvallur district Pin code– 601201.</p>
             <p>Contact: 9884499191</p>
             <p>Email: info@shriraamrecycling.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-30">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-31">
@@ -417,8 +408,8 @@
             <p>Address: Plot No. S –10 & 106, Putlur village, Tiruvallur taluk, Tiruvallur district.</p>
             <p>Contact: 9500038861</p>
             <p>Email: southernalloys@rediffmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-31">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-32">
@@ -427,8 +418,8 @@
             <p>Address: TP-7, IVth Avenue, Mahendra World City Developers Limited, Industrial Estate, S.F.No. 42/1, 43,44, Thenmelpakkam Village, Chengalpattu Taluk, Kancheepuram District.</p>
             <p>Contact: 9790711555</p>
             <p>Email: akshay@sezrecycling.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-32">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-33">
@@ -437,8 +428,8 @@
             <p>Address: SF No.381/3pt, 381/2pt, 384/2pt, 384/3 pt, Sarkar Samakulam village, Annur taluk, Coimbatore district.</p>
             <p>Contact: 9171450039</p>
             <p>Email: tharaniewast00@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-33">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-34">
@@ -447,8 +438,8 @@
             <p>Address: Plot No. 7, Phase – I, MEPZ-SEZ, Tambaram, Chennai – 600 045.</p>
             <p>Contact: 9840897125</p>
             <p>Email: subash.warrier@simsmm.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-34">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-35">
@@ -457,8 +448,8 @@
             <p>Address: SF No.165, Porur village, Maduravoyal taluk, Chennai – 600 116.</p>
             <p>Contact: 9003077866</p>
             <p>Email: tri-abdullah@yahoo.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-35">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-36">
@@ -467,8 +458,8 @@
             <p>Address: No:242, Tiny Sector Ambattur Industrial Estate, Chennai – 600 058.</p>
             <p>Contact: 7397438071</p>
             <p>Email: udhayatraders2011@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-36">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-37">
@@ -477,8 +468,8 @@
             <p>Address: SF No.297/1B2, No.49, Pappankuppam village, SR Kandigai Road, Gummidipoondi taluk, Tiruvallur district. Pin -601 201.</p>
             <p>Contact: 9940615444</p>
             <p>Email: selvam@virogreen.in</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-37">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
         
         <div class="facility-card" id="facility-38">
@@ -487,415 +478,134 @@
             <p>Address: SF No.351/7, Beemanthangal village, Sriperumbudur taluk, Kancheepuram district.</p>
             <p>Contact: 8778458025</p>
             <p>Email: worldscraprecycling@gmail.com</p>
-            <button>Get Directions</button>
-            <button>Book Recycling</button>
+            <button class="get-directions" data-id="facility-38">Get Directions</button>
+            <button onclick="window.location.href='pickup.php'">Book Recycling</button>
         </div>
-        
-        
     </div>
-
-    <!-- Right Panel for Map -->
     <div id="map"></div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 <script>
-    var map = L.map('map').setView([13.0827, 80.2707], 10);
-    // Setting the view to Aurangabad, Maharashtra
+    const map = L.map('map').setView([12.9716, 77.5946], 10); // Default location and zoom level
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+// Add a tile layer (e.g., OpenStreetMap)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
 
     var facilities = [
-    
-    { 
-        id: 'facility-1', 
-        name: 'M/s A.K.Enterprises', 
-        lat: 13.0072, 
-        lng: 80.2152, 
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles household e-waste.',
-        email: 'akenter06@gmail.com'
-    },
-    { 
-        id: 'facility-2', 
-        name: 'M/s Abishek Enterprises', 
-        lat: 13.0972, 
-        lng: 80.1884, 
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles large quantities of e-waste.',
-        email: 'enterprisesabishek@gmail.com'
-    },
-    { 
-        id: 'facility-3', 
-        name: 'M/s AER Worldwide India Pvt Ltd', 
-        lat: 13.1452, 
-        lng: 80.2363, 
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility specializes in IT equipment recycling.',
-        email: 'jkumar@aerworldwide.com, akaja@aerworld.com'
-    },
-    { 
-        id: 'facility-4', 
-        name: 'M/s Arockia Enterprises', 
-        lat: 12.9110, 
-        lng: 80.2184, 
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles electronic appliances.',
-        email: 'associates.grid@gmail.com'
-    },
-    { 
-        id: 'facility-5', 
-        name: 'M/s Ascent Urban Recyclers Pvt Limited', 
-        lat: 12.8833, 
-        lng: 80.0184, 
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility handles urban e-waste recycling.',
-        email: 'santhosh@ascentedigit.com'
-    },
-    { 
-        id: 'facility-6', 
-        name: 'M/s Blooming Recyclers', 
-        lat: 12.6625, 
-        lng: 79.9923, 
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles various types of e-waste.',
-        email: 'bloomingrecycles@gmail.com'
-    },
-    { 
-        id: 'facility-7', 
-        name: 'M/s Earth Sense Recycle Private Limited', 
-        lat: 12.7213, 
-        lng: 79.9985, 
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility focuses on electronic waste recycling.',
-        email: 'ewastechennai@earthsense.in'
-    },
-    { 
-        id: 'facility-8', 
-        name: 'M/s Ecosible Recyclers Pvt Ltd', 
-        lat: 13.0838, 
-        lng: 80.1854, 
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles industrial e-waste.',
-        email: 'Ravi.shastry@ecosible.com'
-    },
-    { 
-        id: 'facility-9', 
-        name: 'M/s E PROCESS House', 
-        lat: 12.8741, 
-        lng: 80.2203, 
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility handles diverse e-waste recycling.',
-        email: '--'
-    },
-    { 
-        id: 'facility-10', 
-        name: 'M/s Enviro Green E-waste Recycling Solutions', 
-        lat: 12.7000, 
-        lng: 79.9592, 
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility specializes in environmentally-friendly recycling.',
-        email: 'envirogreenewaste@gmail.com'
-    },
-    { 
-        id: 'facility-11', 
-        name: 'M/s G S Enterprises', 
-        lat: 12.9275, // Latitude for G S Enterprises
-        lng: 79.9681, // Longitude for G S Enterprises
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility processes large quantities of e-waste.',
-        email: 'gsenterprises@gmail.com'
-    },
-    { 
-        id: 'facility-12', 
-        name: 'M/s Green E Waste Private Limited', 
-        lat: 13.0878, // Latitude for Green E Waste Private Limited
-        lng: 80.1126, // Longitude for Green E Waste Private Limited
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility focuses on electronic waste recycling.',
-        email: 'stephen.greenewaste@gmail.com'
-    },
-    { 
-        id: 'facility-13', 
-        name: 'M/s Green Era Recyclers', 
-        lat: 11.0200, // Latitude for Green Era Recyclers
-        lng: 76.9755, // Longitude for Green Era Recyclers
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles e-waste responsibly.',
-        email: 'prasanth@thegreenera.in'
-    },
-    { 
-        id: 'facility-14', 
-        name: 'M/s Green India Recyclers', 
-        lat: 11.0772, // Latitude for Green India Recyclers
-        lng: 76.9710, // Longitude for Green India Recyclers
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility specializes in recycling various e-waste.',
-        email: 'info@greenindiarecyclers.com'
-    },
-    { 
-        id: 'facility-15', 
-        name: 'M/s INAA Enterprises', 
-        lat: 12.9133, // Latitude for INAA Enterprises
-        lng: 80.1444, // Longitude for INAA Enterprises
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility handles diverse electronic waste.',
-        email: 'info@inaaenterprises.com'
-    },
-    { 
-        id: 'facility-16', 
-        name: 'M/s JADG India E-Waste Recyclers Pvt Ltd', 
-        lat: 13.2000, // Latitude for JADG India E-Waste Recyclers Pvt Ltd
-        lng: 80.2280, // Longitude for JADG India E-Waste Recyclers Pvt Ltd
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility specializes in e-waste recycling.',
-        email: 'jadgewaste@gmail.com'
-    },
-    { 
-        id: 'facility-17', 
-        name: 'M/s John Firm', 
-        lat: 12.0680, // Latitude for John Firm
-        lng: 78.2042, // Longitude for John Firm
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles various types of electronic waste.',
-        email: 'johnfirm2022@gmail.com'
-    },
-    { 
-        id: 'facility-18', 
-        name: 'M/s K.P.P enterprises', 
-        lat: 12.8794, // Latitude for K.P.P enterprises
-        lng: 80.1476, // Longitude for K.P.P enterprises
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility handles large quantities of e-waste.',
-        email: '82.sathya@gmail.com'
-    },
-    { 
-        id: 'facility-19', 
-        name: 'M/s KGN Electronics', 
-        lat: 13.1298, // Latitude for KGN Electronics
-        lng: 80.2193, // Longitude for KGN Electronics
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility specializes in recycling electronic components.',
-        email: 'sonyfarooqzaid@gmail.com'
-    },
-    { 
-        id: 'facility-20', 
-        name: 'M/s Leela Traders', 
-        lat: 12.5599, // Latitude for Leela Traders
-        lng: 80.0530, // Longitude for Leela Traders
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility focuses on e-waste recycling.',
-        email: 'info@leelatraders.co.in, v.kumaran@hotmail.com'
-    },
-    { 
-        id: 'facility-21', 
-        name: 'M/s Micro E–Waste Recyclers', 
-        lat: 10.8000,  // Latitude for Micro E-Waste Recyclers
-        lng: 78.6820,  // Longitude for Micro E-Waste Recyclers
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles various electronic waste.',
-        email: 'microrecyclers@yahoo.com'
-    },
-    { 
-        id: 'facility-22', 
-        name: 'M/s MG Traders', 
-        lat: 13.1121,  // Updated Latitude for MG Traders, Ambattur
-        lng: 80.1792,  // Updated Longitude for MG Traders, Ambattur
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility handles various electronic waste.',
-        email: '--'
-    },
-    { 
-        id: 'facility-23', 
-        name: 'M/s Ponniamman Enterprises', 
-        lat: 13.1206,  // Updated Latitude for Ponniamman Enterprises
-        lng: 79.3171,  // Updated Longitude for Ponniamman Enterprises
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles a large volume of electronic waste.',
-        email: 'ponniammanenterprises@gmail.com'
-    },
-    { 
-        id: 'facility-24', 
-        name: 'M/s Punithan Enterprises, Unit-II', 
-        lat: 12.9792,  // Updated Latitude for Punithan Enterprises
-        lng: 79.9090,  // Updated Longitude for Punithan Enterprises
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility specializes in recycling electronics.',
-        email: 'punithanenterprises@gmail.com'
-    },
-    { 
-        id: 'facility-25', 
-        name: 'M/s R.M Computers', 
-        lat: 13.0906,  // Updated Latitude for R.M Computers, Ambattur
-        lng: 80.1921,  // Updated Longitude for R.M Computers, Ambattur
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles computer waste.',
-        email: 'rmcomputersin@gmail.com'
-    },
-    { 
-        id: 'facility-26', 
-        name: 'M/s RBIA Minerals and Metals Pvt Ltd', 
-        lat: 12.9749,  // Updated Latitude for RBIA Minerals and Metals
-        lng: 79.9103,  // Updated Longitude for RBIA Minerals and Metals
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility handles electronic and metal waste.',
-        email: 'rbiaminerals@gmail.com'
-    },
-    { 
-        id: 'facility-27', 
-        name: 'M/s Sai Sri Waste Management Pvt Ltd', 
-        lat: 11.1490,  // Latitude for Kumarapalayam
-        lng: 77.9886,  // Longitude for Kumarapalayam
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility specializes in waste management.',
-        email: 'info@saiwaste.in'
-    },
-    { 
-        id: 'facility-28', 
-        name: 'M/s SKV E-Waste Recycling Pvt Ltd', 
-        lat: 13.0692,  // Latitude for SKV E-Waste Recycling, Ambattur
-        lng: 80.1707,  // Longitude for SKV E-Waste Recycling, Ambattur
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles electronic waste.',
-        email: 'info@skvewaste.com'
-    },
-    { 
-        id: 'facility-29', 
-        name: 'M/s S.P.P. Enterprises', 
-        lat: 12.9413,  // Latitude for S.P.P. Enterprises
-        lng: 80.1364,  // Longitude for S.P.P. Enterprises
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility focuses on electronic waste recycling.',
-        email: 'sppenterprices@gmail.com'
-    },
-    { 
-        id: 'facility-30', 
-        name: 'M/s Shri Raam Recycling', 
-        lat: 13.3144,  // Latitude for Shri Raam Recycling
-        lng: 80.0217,  // Longitude for Shri Raam Recycling
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles various electronic waste.',
-        email: 'info@shriraamrecycling.com'
-    },
-    { 
-        id: 'facility-31', 
-        name: 'M/s Southern Alloys', 
-        lat: 13.0970,  // Latitude for Southern Alloys
-        lng: 79.9628,  // Longitude for Southern Alloys
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility specializes in alloy recycling.',
-        email: 'southernalloys@rediffmail.com'
-    },
-    { 
-        id: 'facility-32', 
-        name: 'M/s SEZ Recycling', 
-        lat: 12.8516,  // Latitude for SEZ Recycling
-        lng: 79.9735,  // Longitude for SEZ Recycling
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility handles electronic waste recycling.',
-        email: 'akshay@sezrecycling.com'
-    },
-    { 
-        id: 'facility-33', 
-        name: 'M/s Tharani Electronics Waste', 
-        lat: 11.0688,  // Latitude for Tharani Electronics Waste
-        lng: 77.0211,  // Longitude for Tharani Electronics Waste
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility recycles electronic waste.',
-        email: 'tharaniewast00@gmail.com'
-    },
-    { 
-        id: 'facility-34', 
-        name: 'M/s Trishyraya Recycling Private Limited', 
-        lat: 12.9166,  // Latitude for Trishyraya Recycling
-        lng: 80.1615,  // Longitude for Trishyraya Recycling
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility focuses on recycling various waste.',
-        email: 'subash.warrier@simsmm.com'
-    },
-    { 
-        id: 'facility-35', 
-        name: 'M/s Tritech Systems', 
-        lat: 13.0750,  // Latitude for Tritech Systems
-        lng: 80.1877,  // Longitude for Tritech Systems
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility specializes in electronic waste.',
-        email: 'tri-abdullah@yahoo.com'
-    },
-    { 
-        id: 'facility-36', 
-        name: 'M/s Udhaya Traders', 
-        lat: 13.0947,  // Latitude for Udhaya Traders
-        lng: 80.1791,  // Longitude for Udhaya Traders
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility focuses on waste management.',
-        email: 'udhayatraders2011@gmail.com'
-    },
-    { 
-        id: 'facility-37', 
-        name: 'M/s Virogreen India Pvt Ltd', 
-        lat: 13.2286,  // Updated Latitude for Virogreen India Pvt Ltd
-        lng: 80.0189,  // Updated Longitude for Virogreen India Pvt Ltd
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility specializes in electronic waste recycling.',
-        email: 'selvam@virogreen.in'
-    },
-    { 
-        id: 'facility-38', 
-        name: 'M/s World Scrap Recycling Solution', 
-        lat: 12.9726,  // Latitude for World Scrap Recycling Solution
-        lng: 79.9177,  // Longitude for World Scrap Recycling Solution
-        image: 'https://via.placeholder.com/150', 
-        info: 'This facility focuses on recycling scrap waste.',
-        email: 'worldscraprecycling@gmail.com'
+        { id: 'facility-1', name: 'M/s A.K.Enterprises', lat: 13.0072, lng: 80.2152 },
+        { id: 'facility-2', name: 'M/s Abishek Enterprises', lat: 13.0972, lng: 80.1884 },
+        { id: 'facility-3', name: 'M/s AER Worldwide India Pvt Ltd', lat: 13.1452, lng: 80.2363 },
+        { id: 'facility-4', name: 'M/s Arockia Enterprises', lat: 12.9110, lng: 80.2184 },
+        { id: 'facility-5', name: 'M/s Ascent Urban Recyclers Pvt Limited', lat: 12.8833, lng: 80.0184 },
+        { id: 'facility-6', name: 'M/s Blooming Recyclers', lat: 12.6625, lng: 79.9923 },
+{  id: 'facility-7', name: 'M/s Earth Sense Recycle Private Limited', lat: 12.7213, lng: 79.9985 },
+{ id: 'facility-8', name: 'M/s Ecosible Recyclers Pvt Ltd', lat: 13.0838, lng: 80.1854 },
+{ id: 'facility-9', name: 'M/s E PROCESS House', lat: 12.8741, lng: 80.2203 },
+{ id: 'facility-10', name: 'M/s Enviro Green E-waste Recycling Solutions', lat: 12.7000, lng: 79.9592 },
+{ id: 'facility-11', name: 'M/s G S Enterprises', lat: 12.9275, lng: 79.9681 },
+{ id: 'facility-12', name: 'M/s Green E Waste Private Limited', lat: 13.0878, lng: 80.1126 },
+{ id: 'facility-13', name: 'M/s Green Era Recyclers', lat: 11.0200, lng: 76.9755 },
+{ id: 'facility-14', name: 'M/s Green India Recyclers', lat: 11.0772, lng: 76.9710 },
+{ id: 'facility-15', name: 'M/s INAA Enterprises', lat: 12.9133, lng: 80.1444 },
+{ id: 'facility-16', name: 'M/s JADG India E-Waste Recyclers Pvt Ltd', lat: 13.2000, lng: 80.2280 },
+{ id: 'facility-17', name: 'M/s John Firm', lat: 12.0680, lng: 78.2042 },
+{ id: 'facility-18', name: 'M/s K.P.P enterprises', lat: 12.8794, lng: 80.1476 },
+{ id: 'facility-19', name: 'M/s KGN Electronics', lat: 13.1298, lng: 80.2193 },
+{ id: 'facility-20', name: 'M/s Leela Traders', lat: 12.5599, lng: 80.0530 },
+{ id: 'facility-21', name: 'M/s Micro E–Waste Recyclers', lat: 10.8000, lng: 78.6820 },
+{ id: 'facility-22', name: 'M/s MG Traders', lat: 13.1121, lng: 80.1792 },
+{ id: 'facility-23', name: 'M/s Ponniamman Enterprises', lat: 13.1206, lng: 79.3171 },
+{ id: 'facility-24', name: 'M/s Punithan Enterprises, Unit-II', lat: 12.9792, lng: 79.9090 },
+{ id: 'facility-25', name: 'M/s R.M Computers', lat: 13.0906, lng: 80.1921 },
+{ id: 'facility-26', name: 'M/s RBIA Minerals and Metals Pvt Ltd', lat: 12.9749, lng: 79.9103 },
+{ id: 'facility-27', name: 'M/s Sai Sri Waste Management Pvt Ltd', lat: 11.1490, lng: 77.9886 },
+{ id: 'facility-28', name: 'M/s SKV E-Waste Recycling Pvt Ltd', lat: 13.0692, lng: 80.1707 },
+{ id: 'facility-29', name: 'M/s S.P.P. Enterprises', lat: 12.9413, lng: 80.1364 },
+{ id: 'facility-30', name: 'M/s Shri Raam Recycling', lat: 13.3144, lng: 80.0217 },
+{ id: 'facility-31', name: 'M/s Southern Alloys', lat: 13.0970, lng: 79.9628 },
+{ id: 'facility-32', name: 'M/s SEZ Recycling', lat: 12.8516, lng: 79.9735 },
+{ id: 'facility-33', name: 'M/s Tharani Electronics Waste', lat: 11.0688, lng: 77.0211 },
+{ id: 'facility-34', name: 'M/s Trishyraya Recycling Private Limited', lat: 12.9166, lng: 80.1615 },
+{ id: 'facility-35', name: 'M/s Tritech Systems', lat: 13.0750, lng: 80.1877 },
+{ id: 'facility-36', name: 'M/s Udhaya Traders', lat: 13.0947, lng: 80.1791 },
+{ id: 'facility-37', name: 'M/s Virogreen India Pvt Ltd', lat: 13.2286, lng: 80.0189 },
+{ id: 'facility-38', name: 'M/s World Scrap Recycling Solution', lat: 12.9726, lng: 79.9177 }
+    ];
+
+    facilities.forEach(function(facility) {
+        L.marker([facility.lat, facility.lng]).addTo(map)
+            .bindPopup(<b>${facility.name}</b>)
+        
+    });
+
+    var userLat = null, userLng = null, routingControl = null;
+
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            userLat = position.coords.latitude;
+            userLng = position.coords.longitude;
+            L.marker([userLat, userLng]).addTo(map).bindPopup("You are here").openPopup();
+        },
+        function() { alert("Unable to retrieve your location."); }
+    );
+
+    function highlightFacilityCard(facilityId) {
+        document.querySelectorAll('.facility-card').forEach(card => card.classList.remove('highlight'));
+        var card = document.getElementById(facilityId);
+        if (card) {
+            card.classList.add('highlight');
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     }
 
-];
+    function getRouteToFacility(facilityLat, facilityLng, facilityName) {
+        if (!userLat || !userLng) {
+            alert("User location not available.");
+            return;
+        }
 
-// Search functionality
-document.getElementById('search-button').addEventListener('click', function() {
+        if (routingControl) map.removeControl(routingControl);
+
+        routingControl = L.Routing.control({
+            waypoints: [
+                L.latLng(userLat, userLng),
+                L.latLng(facilityLat, facilityLng)
+            ],
+            routeWhileDragging: true
+        }).addTo(map);
+    }
+
+    document.querySelectorAll('.get-directions').forEach(function(button) {
+        document.addEventListener('DOMContentLoaded', function() {
+    const map = L.map('map').setView([12.9716, 77.5946], 10);
+});
+
+
+            if (facility) {
+                highlightFacilityCard(facility.id);
+                getRouteToFacility(facility.lat, facility.lng, facility.name);
+                map.flyTo([facility.lat, facility.lng], 14);
+            }
+        });
+    });
+
+    document.getElementById('search-button').addEventListener('click', function() {
         var searchQuery = document.getElementById('search-input').value.toLowerCase();
-        var found = facilities.find(facility => facility.name.toLowerCase().includes(searchQuery));
+        var found = facilities.filter(facility => facility.name.toLowerCase().includes(searchQuery));
 
-        if (found) {
-            map.setView([found.lat, found.lng], 10);  // Center map on searched facility
-            L.popup()
-                .setLatLng([found.lat, found.lng])
-                .setContent(`
-                    <b>${found.name}</b><br>
-                    <img src="${found.image}" alt="${found.name}" width="150" height="150"><br>
-                    <p>${found.info}</p>
-                    <p><b>Email:</b> ${found.email}</p>
-                `)
-                .openOn(map);
-            
-            // Scroll to the facility card
-            var facilityElement = document.getElementById(found.id);
-            facilityElement.scrollIntoView({ behavior: 'smooth' });
+        if (found.length > 0) {
+            var facility = found[0]; // Select first matching result
+            map.flyTo([facility.lat, facility.lng], 10);
+            highlightFacilityCard(facility.id);
         } else {
             alert('Facility not found');
         }
     });
-
-    // Add facility markers with scroll feature
-    facilities.forEach(function(facility) {
-        L.marker([facility.lat, facility.lng]).addTo(map)
-            .bindPopup(`
-                <b>${facility.name}</b><br>
-                <img src="${facility.image}" alt="${facility.name}" width="150" height="150"><br>
-                <p>${facility.info}</p>
-                <p><b>Email:</b> ${facility.email}</p>
-                <label for="user-input">Add your notes:</label><br>
-                <input type="text" id="user-input" placeholder="Enter information here">
-            `)
-            .on('click', function() {
-                var facilityElement = document.getElementById(facility.id);
-                facilityElement.scrollIntoView({ behavior: 'smooth' });
-            });
-    });
-
 </script>
 
 </body>

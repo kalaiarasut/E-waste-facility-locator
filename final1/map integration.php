@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-waste Facility Locator</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <style>
         * {
             margin: 0;
@@ -19,6 +18,7 @@
             display: flex;
             height: 100vh;
         }
+        /* Left Panel */
         #left-panel {
             width: 30%;
             background-color: #f4f4f4;
@@ -50,77 +50,46 @@
         .facility-card button:hover {
             background-color: #218838;
         }
+        /* Map Panel */
         #map {
             width: 70%;
             height: 100%;
-        }
-        #search-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            background-color: #f2f2f2;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        #search-input {
-            width: 70%;
-            padding: 10px;
-            border: 1px solid #28a745;
-            border-radius: 5px;
-            font-size: 16px;
-            outline: none;
-        }
-        #search-button {
-            padding: 10px 20px;
-            margin-left: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        #search-button:hover {
-            background-color: #218838;
         }
     </style>
 </head>
 <body>
 
 <div id="container">
+    <!-- Left Panel for Facility List -->
     <div id="left-panel">
-        <div id="search-container">
-            <input type="text" id="search-input" placeholder="Search for a facility...">
-            <button id="search-button">Search</button>
-        </div>
+
         <div class="facility-card" id="facility-1">
             <h3>M/s A.K.Enterprises</h3>
             <p>Capacity: 170 T/Annum</p>
             <p>Address: No:12, Chakarapani Street, Velacherry, Chennai – 600 0032.</p>
             <p>Contact: 9176664862</p>
             <p>Email: akenter06@gmail.com</p>
-            <button class="get-directions" data-id="facility-1">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
+        
         <div class="facility-card" id="facility-2">
             <h3>M/s Abishek Enterprises</h3>
             <p>Capacity: 6000 T/Annum</p>
             <p>Address: SF No. 2G, North Phase, Ambattur, Chennai – 600098.</p>
             <p>Contact: 9884057878</p>
             <p>Email: enterprisesabishek@gmail.com</p>
-            <button class="get-directions" data-id="facility-2">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
+        
         <div class="facility-card" id="facility-3">
             <h3>M/s AER Worldwide India Pvt Ltd</h3>
             <p>Capacity: 12000 T/Annum</p>
             <p>Address: SF No.774, Elandandheri, Sadayankuppam village, Manali New Town, Chennai – 600103.</p>
             <p>Contact: 9940105999</p>
             <p>Email: jkumar@aerworldwide.com, akaja@aerworld.com</p>
-            <button class="get-directions" data-id="facility-3">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -130,7 +99,7 @@
             <p>Address: S.F.No.4/1E, Seevaram village, Sholinganallur taluk, Chennai – 600 097</p>
             <p>Contact: 9551044431</p>
             <p>Email: associates.grid@gmail.com</p>
-            <button class="get-directions" data-id="facility-4">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -140,7 +109,7 @@
             <p>Address: SF No.62/1B, 2A2, Padur Road, Mevalurkuppam village, Sriperumbudur taluk, Kancheepuram district, Pin - 602 105.</p>
             <p>Contact: 9790099016</p>
             <p>Email: santhosh@ascentedigit.com</p>
-            <button class="get-directions" data-id="facility-5">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -150,7 +119,7 @@
             <p>Address: Plot. No. D9/2, SIDCO Industrial Estate, Maraimalai Nagar, Kizhikaranai village, Chengalpattu district.</p>
             <p>Contact: 9840160149</p>
             <p>Email: bloomingrecycles@gmail.com</p>
-            <button class="get-directions" data-id="facility-6">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -160,7 +129,7 @@
             <p>Address: SF No. 247, Thenmelpakkam village, Chengalpattu taluk, Chengalpattu district.</p>
             <p>Contact: 9962222459</p>
             <p>Email: ewastechennai@earthsense.in</p>
-            <button class="get-directions" data-id="facility-7">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -170,7 +139,7 @@
             <p>Address: No.154A/B, 8th Mahatma Gandhi Road, Tass Industrial Estate, Ambattur, Chennai – 600098.</p>
             <p>Contact: 9500101738</p>
             <p>Email: Ravi.shastry@ecosible.com</p>
-            <button class="get-directions" data-id="facility-8">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -180,7 +149,7 @@
             <p>Address: c/o Bharat Electronics Limited, SF No 3 & 10/1 Nanthambakkam village, Alandur taluk, Chengalpattu district.</p>
             <p>Contact: --</p>
             <p>Email: --</p>
-            <button class="get-directions" data-id="facility-9">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -190,7 +159,7 @@
             <p>Address: SF No. 2134, Palur village, Chengalpattu taluk, Chengalpattu district.</p>
             <p>Contact: 9445050342</p>
             <p>Email: envirogreenewaste@gmail.com</p>
-            <button class="get-directions" data-id="facility-10">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -200,7 +169,7 @@
             <p>Address: SF No: 254/2A2A, Mevalurkuppam village, Sriperumbudur taluk, Kancheepuram district.</p>
             <p>Contact: 9789092500</p>
             <p>Email: gsenterprises@gmail.com</p>
-            <button class="get-directions" data-id="facility-11">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -210,7 +179,7 @@
             <p>Address: SF No. 294/pt, Ayanambakkam village, Poonamallee taluk, Tiruvallur district.</p>
             <p>Contact: 9566214845</p>
             <p>Email: stephen.greenewaste@gmail.com</p>
-            <button class="get-directions" data-id="facility-12">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -220,7 +189,7 @@
             <p>Address: SF No. 344/2, Kavundampalayam village, Coimbatore North taluk, Coimbatore district – 641 025.</p>
             <p>Contact: 9965664526, 8300223526</p>
             <p>Email: prasanth@thegreenera.in</p>
-            <button class="get-directions" data-id="facility-13">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -230,7 +199,7 @@
             <p>Address: SF No. 26/1B, Kovilpalayam road, Soolakkal village, Kinathukadavu taluk, Coimbatore – 642 110.</p>
             <p>Contact: 9003491034, 9894940304</p>
             <p>Email: info@greenindiarecyclers.com</p>
-            <button class="get-directions" data-id="facility-14">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -240,7 +209,7 @@
             <p>Address: DP No. AC-31/24, Thirumudivakkam village, Kundrathur taluk, Kancheepuram district.</p>
             <p>Contact: 9444446229</p>
             <p>Email: info@inaaenterprises.com</p>
-            <button class="get-directions" data-id="facility-15">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -250,7 +219,7 @@
             <p>Address: SF No.256/1A1, Kollur village, Kilikodi post, Ponneri taluk, Tiruvallur district - 601206.</p>
             <p>Contact: 7373919322</p>
             <p>Email: jadgewaste@gmail.com</p>
-            <button class="get-directions" data-id="facility-16">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -260,7 +229,7 @@
             <p>Address: SF No.144/1C2, Kerekodihalli village, Karimangalam taluk, Dharmapuri district.</p>
             <p>Contact: 7904574355</p>
             <p>Email: johnfirm2022@gmail.com</p>
-            <button class="get-directions" data-id="facility-17">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -270,7 +239,7 @@
             <p>Address: No. 535-3C, Santhavellore village, Sunguvarchatram post, Sriperumbudur taluk, Kancheepuram district.</p>
             <p>Contact: 9940858828</p>
             <p>Email: 82.sathya@gmail.com</p>
-            <button class="get-directions" data-id="facility-18">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -280,7 +249,7 @@
             <p>Address: No.48 A, Dr Ambedkar College Road, Erukkenchery village, Perambur taluk, Chennai district.</p>
             <p>Contact: 9382600144</p>
             <p>Email: sonyfarooqzaid@gmail.com</p>
-            <button class="get-directions" data-id="facility-19">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -290,7 +259,7 @@
             <p>Address: SF No. 41/1 part, Cuddaloor village, Chengalpattu taluk, Chengalpattu district.</p>
             <p>Contact: 9380888877</p>
             <p>Email: info@leelatraders.co.in, v.kumaran@hotmail.com</p>
-            <button class="get-directions" data-id="facility-20">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         <div class="facility-card" id="facility-21">
@@ -299,7 +268,7 @@
             <p>Address: No. 3/3B, Chennai Bye Pass Road, Senthaneerpuram, Trichy – 620 004.</p>
             <p>Contact: 9443141600</p>
             <p>Email: microrecyclers@yahoo.com</p>
-            <button class="get-directions" data-id="facility-21">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -309,7 +278,7 @@
             <p>Address: No. 86, Nehru Street, Teachers Colony, Ambattur, Chennai – 600053.</p>
             <p>Contact: --</p>
             <p>Email: --</p>
-            <button class="get-directions" data-id="facility-22">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -319,7 +288,7 @@
             <p>Address: SF No. 216/3, Tiruvallur village, Tiruvallur taluk, Tiruvallur district.</p>
             <p>Contact: 9677462993</p>
             <p>Email: ponniammanenterprises@gmail.com</p>
-            <button class="get-directions" data-id="facility-23">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -329,7 +298,7 @@
             <p>Address: No.113/19 Part, Rajiv Nagar, Perinjambakkam, Gunduperumbedu Post, Sirperumbudur taluk, Kancheepuram district. Pin – 601 301.</p>
             <p>Contact: 9840611027</p>
             <p>Email: punithanenterprises@gmail.com</p>
-            <button class="get-directions" data-id="facility-24">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -339,7 +308,7 @@
             <p>Address: Plot No.229, 9th Street, Ambattur, Chennai – 600098.</p>
             <p>Contact: 9094032959</p>
             <p>Email: rmcomputersin@gmail.com</p>
-            <button class="get-directions" data-id="facility-25">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -349,7 +318,7 @@
             <p>Address: SF No. 205-1B2A, Kandur village, Sriperumbudur taluk, Kancheepuram district.</p>
             <p>Contact: 9444055770</p>
             <p>Email: rbiaminerals@gmail.com</p>
-            <button class="get-directions" data-id="facility-26">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -359,7 +328,7 @@
             <p>Address: SF No 443/1B2, 443/2A, Padaveedu village, Kumarapalayam taluk, Kumarapalayam district.</p>
             <p>Contact: 9942429447</p>
             <p>Email: info@saiwaste.in</p>
-            <button class="get-directions" data-id="facility-27">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -369,7 +338,7 @@
             <p>Address: Plot No.154 A&B, Tass Industrial Area, Ambattur SIDCO Industrial Estate, Chennai – 600 098.</p>
             <p>Contact: 9094345145</p>
             <p>Email: info@skvewaste.com</p>
-            <button class="get-directions" data-id="facility-28">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -379,7 +348,7 @@
             <p>Address: S.No.184-4C, Mambakkam village, Sriperumbudur taluk, Kancheepuram district.</p>
             <p>Contact: 7299917239</p>
             <p>Email: sppenterprices@gmail.com</p>
-            <button class="get-directions" data-id="facility-29">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -389,7 +358,7 @@
             <p>Address: No.DP-29, SIDCO Industrial Estate, SIPCOT Industrial Complex, Gummidipoondi, Tiruvallur district Pin code– 601201.</p>
             <p>Contact: 9884499191</p>
             <p>Email: info@shriraamrecycling.com</p>
-            <button class="get-directions" data-id="facility-30">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -399,7 +368,7 @@
             <p>Address: Plot No. S –10 & 106, Putlur village, Tiruvallur taluk, Tiruvallur district.</p>
             <p>Contact: 9500038861</p>
             <p>Email: southernalloys@rediffmail.com</p>
-            <button class="get-directions" data-id="facility-31">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -409,7 +378,7 @@
             <p>Address: TP-7, IVth Avenue, Mahendra World City Developers Limited, Industrial Estate, S.F.No. 42/1, 43,44, Thenmelpakkam Village, Chengalpattu Taluk, Kancheepuram District.</p>
             <p>Contact: 9790711555</p>
             <p>Email: akshay@sezrecycling.com</p>
-            <button class="get-directions" data-id="facility-32">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -419,7 +388,7 @@
             <p>Address: SF No.381/3pt, 381/2pt, 384/2pt, 384/3 pt, Sarkar Samakulam village, Annur taluk, Coimbatore district.</p>
             <p>Contact: 9171450039</p>
             <p>Email: tharaniewast00@gmail.com</p>
-            <button class="get-directions" data-id="facility-33">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -429,7 +398,7 @@
             <p>Address: Plot No. 7, Phase – I, MEPZ-SEZ, Tambaram, Chennai – 600 045.</p>
             <p>Contact: 9840897125</p>
             <p>Email: subash.warrier@simsmm.com</p>
-            <button class="get-directions" data-id="facility-34">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -439,7 +408,7 @@
             <p>Address: SF No.165, Porur village, Maduravoyal taluk, Chennai – 600 116.</p>
             <p>Contact: 9003077866</p>
             <p>Email: tri-abdullah@yahoo.com</p>
-            <button class="get-directions" data-id="facility-35">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -449,7 +418,7 @@
             <p>Address: No:242, Tiny Sector Ambattur Industrial Estate, Chennai – 600 058.</p>
             <p>Contact: 7397438071</p>
             <p>Email: udhayatraders2011@gmail.com</p>
-            <button class="get-directions" data-id="facility-36">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -459,7 +428,7 @@
             <p>Address: SF No.297/1B2, No.49, Pappankuppam village, SR Kandigai Road, Gummidipoondi taluk, Tiruvallur district. Pin -601 201.</p>
             <p>Contact: 9940615444</p>
             <p>Email: selvam@virogreen.in</p>
-            <button class="get-directions" data-id="facility-37">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
         
@@ -469,24 +438,25 @@
             <p>Address: SF No.351/7, Beemanthangal village, Sriperumbudur taluk, Kancheepuram district.</p>
             <p>Contact: 8778458025</p>
             <p>Email: worldscraprecycling@gmail.com</p>
-            <button class="get-directions" data-id="facility-38">Get Directions</button>
+            <button>Get Directions</button>
             <button>Book Recycling</button>
         </div>
+        
+        
     </div>
+
+    <!-- Right Panel for Map -->
     <div id="map"></div>
 </div>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script>
-    // Initialize the map
-    var map = L.map('map').setView([13.0827, 80.2707], 14);
-    // Add OpenStreetMap tiles
+    var map = L.map('map').setView([19.8762, 75.3433], 13); // Setting the view to Aurangabad, Maharashtra
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // Facility data
     var facilities = [
     
     { 
@@ -833,100 +803,25 @@
     }
 
 ];
-// Add markers for facilities
-facilities.forEach(function(facility) {
-    L.marker([facility.lat, facility.lng]).addTo(map)
-        .bindPopup(`<b>${facility.name}</b><br>Address: ${facility.id}`);
-});
 
-// User location variables
-let userLat = null, userLng = null;
-let routingControl = null;
 
-// Geolocate the user with enhanced accuracy settings
-navigator.geolocation.getCurrentPosition(
-    function(position) {
-        // Extract accurate latitude and longitude
-        userLat = position.coords.latitude;
-        userLng = position.coords.longitude;
-
-        // Log coordinates for debugging
-        console.log(`User Location: Latitude ${userLat}, Longitude ${userLng}`);
-
-        // Add marker for the user's live location
-        L.marker([userLat, userLng])
-            .addTo(map)
-            .bindPopup("You are here")
-            .openPopup();
-
-        // Center the map on the user's location
-        map.setView([userLat, userLng], 10);
-    },
-    function(error) {
-        // Handle geolocation errors
-        let errorMessage = "Unable to retrieve your location.";
-        if (error.code === 1) {
-            errorMessage = "Permission denied. Please allow location access.";
-        } else if (error.code === 2) {
-            errorMessage = "Position unavailable. Ensure GPS is active.";
-        } else if (error.code === 3) {
-            errorMessage = "Timeout occurred. Unable to get location.";
-        }
-        alert(`Error: ${errorMessage}`);
-    },
-    {
-        enableHighAccuracy: true, // Use high accuracy mode for better GPS data
-        timeout: 20000,          // Timeout to get the location
-        maximumAge: 0            // No caching; fetch fresh location
-    }
-);
-
-// Function to display route to facility
-function getRouteToFacility(facilityLat, facilityLng, facilityName) {
-    if (!userLat || !userLng) {
-        alert("User location not available.");
-        return;
-    }
-
-    // Clear existing route
-    if (routingControl) map.removeControl(routingControl);
-
-    // Add routing control
-    routingControl = L.Routing.control({
-        waypoints: [
-            L.latLng(userLat, userLng),
-            L.latLng(facilityLat, facilityLng)
-        ],
-        routeWhileDragging: true
-    }).addTo(map);
-}
-
-// Add "Get Directions" functionality
-document.querySelectorAll('.get-directions').forEach(function(button) {
-    button.addEventListener('click', function() {
-        const facilityId = button.getAttribute('data-id');
-        const facility = facilities.find(f => f.id === facilityId);
-
-        if (facility) {
-            getRouteToFacility(facility.lat, facility.lng, facility.name);
-            map.flyTo([facility.lat, facility.lng], 12);
-        }
+    facilities.forEach(function(facility) {
+        L.marker([facility.lat, facility.lng]).addTo(map)
+            .bindPopup(`
+                <b>${facility.name}</b><br>
+                <img src="${facility.image}" alt="${facility.name}" width="150" height="150"><br>
+                <p>${facility.info}</p>
+                <p><b>Email:</b> ${facility.email}</p> <!-- Display email -->
+                <label for="user-input">Add your notes:</label><br>
+                <input type="text" id="user-input" placeholder="Enter information here">
+            `)
+            .on('click', function() {
+                // Scroll the corresponding facility card into view
+                var facilityElement = document.getElementById(facility.id);
+                facilityElement.scrollIntoView({ behavior: 'smooth' });
+            });
     });
-});
-
-// Search functionality
-document.getElementById('search-button').addEventListener('click', function() {
-    const searchQuery = document.getElementById('search-input').value.toLowerCase();
-    const found = facilities.find(facility => facility.name.toLowerCase().includes(searchQuery));
-
-    if (found) {
-        map.flyTo([found.lat, found.lng], 14);
-        alert(`Found: ${found.name}`);
-    } else {
-        alert('Facility not found');
-    }
-});
-
 </script>
+
 </body>
 </html>

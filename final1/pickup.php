@@ -35,8 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $addStatusColumnQuery = "ALTER TABLE pickupdetails ADD COLUMN IF NOT EXISTS status VARCHAR(20) DEFAULT 'pending'";
     $conn->query($addStatusColumnQuery);
 
-    // Prepare the SQL statement to insert pickup details with the status
-    $stmt = $conn->prepare("INSERT INTO pickupdetails (email, price, device, model, location, time, phone, date, facility, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
+    // Generate a unique customer ID
+    $customerID = strtoupper(substr(uniqid('CUST'), 0, 10)); // Example: CUSTA1B2C3
+
+    // Prepare the SQL statement to insert pickup details with the status and customer ID
+    $stmt = $conn->prepare("INSERT INTO pickupdetails (email, price, device, model, location, time, phone, date, facility, status, customer_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)");
 
     // Check if prepare() was successful
     if ($stmt === false) {
@@ -44,11 +47,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Bind parameters to the SQL query
-    $stmt->bind_param("sssssssss", $email, $price, $device, $model, $location, $time, $phone, $date, $facility);
+    $stmt->bind_param("ssssssssss", $email, $price, $device, $model, $location, $time, $phone, $date, $facility, $customerID);
 
     // Execute the statement
     if ($stmt->execute()) {
-        echo "<script>alert('Pickup request submitted successfully!'); window.location.href='pickup.php';</script>";
+        echo "<script>
+                alert('Pickup request submitted successfully! Your Customer ID is: $customerID');
+                window.location.href='pickup.php';
+              </script>";
     } else {
         echo "Error: " . $stmt->error;
     }
@@ -58,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -210,7 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="menu">
       <a href="main.php">Home</a>
       <a href="about us.php">About</a>
-      <a href="facility.php">E-Facilities</a>
+      <a href="fa.php">E-Facilities</a>
       <a href="pickup.php">Recycle</a>
       <a href="timeline.php">Guidelines</a>
       <a href="contactus.php">Contact Us</a>
@@ -227,7 +234,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="text" id="device" name="device" placeholder="Enter device name" required>
       </div>
       <div class="form-section">
-        <label for="price">Recycle Item Price:</label>
+        <label for="price">Item Price:</label>
         <input type="text" id="price" name="price" placeholder="Enter item price" required>
       </div>
       <div class="form-section">

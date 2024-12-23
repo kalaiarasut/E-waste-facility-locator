@@ -20,7 +20,7 @@ session_start();
         <div class="menu">
             <a href="main.php">Home</a>
             <a href="about us.php">About</a>
-            <a href="facility.php">E-Facilities</a>
+            <a href="fa.php">E-Facilities</a>
             <a href="pickup.php">Book a service</a>
             <a href="timeline.php">Guidelines</a>
             <a href="contactus.php">Contact Us</a>
@@ -52,7 +52,7 @@ session_start();
         <div class="hero-text">
             <h1>Let Your Old Device Help The <span style="text-decoration: underline; color: #1b5e20;">Environment</span></h1>
             <p>Dispose of your e-waste responsibly and find the nearest recycling facility. Together, we can make a difference!</p>
-            <a href="facility.php" class="cta-btn">Locate Your Nearest Facility</a>
+            <a href="fa.php" class="cta-btn">Locate Your Nearest Facility</a>
         </div>
         <div class="hero-image">
             <img src="sample.png" alt="E-waste recycling illustration">
@@ -91,7 +91,7 @@ session_start();
                     <div class="card-body">
                         <h5 class="card-title">Locate Recycling Centers</h5>
                         <p class="card-text">Use our tool to find the nearest e-waste recycling facility and contribute to a cleaner planet.</p>
-                        <a href="facility.php" class="btn btn-success">Find Centers</a>
+                        <a href="fa.php" class="btn btn-success">Find Centers</a>
                     </div>
                 </div>
             </div>
