@@ -1,4 +1,7 @@
 # ELocate - E-Waste Facility Locator System
+## 📽️ Project Demo
+
+[![Watch the demo](https://img.youtube.com/vi/WMB1Sm_S80k/0.jpg)](https://www.youtube.com/watch?v=WMB1Sm_S80k)
 
 ## 🌱 About ELocate
 
