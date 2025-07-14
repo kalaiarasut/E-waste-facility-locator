@@ -73,8 +73,8 @@ To foster a future where e-waste is managed responsibly by all, contributing to 
 
 1. **Clone or Download**
    ```bash
-   git clone https://github.com/yourusername/elocate-ewaste-system.git
-   cd elocate-ewaste-system
+   git clone https://github.com/kalaiarasut/E-waste-facility-locator.git
+   cd E-waste-facility-locator
    ```
 
 2. **Setup XAMPP**
@@ -226,16 +226,9 @@ We welcome contributions to improve ELocate! Here's how you can help:
 - Include comments for complex logic
 - Test across multiple browsers
 
-## 📞 Support & Contact
-
-- **Email**: support@elocate.com
-- **Website**: [www.elocate.com](http://www.elocate.com)
-- **Documentation**: Available in the `/docs` folder
-- **Issue Tracker**: GitHub Issues section
-
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License.
 
 ## 🙏 Acknowledgments
 
