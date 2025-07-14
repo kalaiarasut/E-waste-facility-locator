@@ -19,7 +19,6 @@ ELocate is a comprehensive E-Waste Management System designed to help individual
 - **Personal Dashboard**: Track your e-waste recycling contributions
 - **Carbon Footprint Calculator**: Measure environmental benefits of recycling
 - **Statistics Visualization**: Interactive charts showing global e-waste data
-- **Rewards System**: Earn rewards based on recycling milestones
 
 ### 🚚 **Pickup Services**
 - **Schedule Pickups**: Book convenient pickup times for your location
