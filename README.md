@@ -7,12 +7,6 @@
 
 ELocate is a comprehensive E-Waste Management System designed to help individuals and businesses responsibly dispose of electronic waste. Our platform connects users with certified recycling facilities, tracks environmental impact, and promotes sustainable practices for a cleaner future.
 
-### 🎯 Mission
-To support a cleaner, healthier planet by reducing the negative impact of electronic waste through accessible recycling solutions and environmental awareness.
-
-### 🔮 Vision  
-To foster a future where e-waste is managed responsibly by all, contributing to a more sustainable world for generations to come.
-
 ## ✨ Key Features
 
 ### 🗺️ **Facility Locator**
@@ -53,16 +47,14 @@ To foster a future where e-waste is managed responsibly by all, contributing to 
 - **Session Management**: Secure user authentication and authorization
 
 ### Frontend
+- **Leaflet API**: Location services and facility mapping
 - **HTML5/CSS3**: Modern, responsive web structure
 - **Bootstrap 4.5**: Mobile-first responsive design framework
 - **JavaScript (ES6)**: Interactive features and dynamic content
 - **Font Awesome**: Professional icon library
-- **Chart.js**: Data visualization for statistics
 
 ### Additional Tools
 - **XAMPP**: Local development environment
-- **jQuery**: DOM manipulation and AJAX requests
-- **Google Maps API**: Location services and facility mapping
 
 ## 🚀 Installation & Setup
 
