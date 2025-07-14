@@ -9,36 +9,36 @@ ELocate is a comprehensive E-Waste Management System designed to help individual
 
 ## ✨ Key Features
 
-### 🗺️ **Facility Locator**
+### **Facility Locator**
 - **Interactive Map Integration**: Find certified e-waste recycling facilities near you
 - **Detailed Facility Information**: View capacity, contact details, and accepted items
 - **Real-time Availability**: Check facility status and operating hours
 - **Multi-location Support**: Coverage across Tamil Nadu with 34+ certified facilities
 
-### 📊 **Environmental Impact Tracking**
+### **Environmental Impact Tracking**
 - **Personal Dashboard**: Track your e-waste recycling contributions
 - **Carbon Footprint Calculator**: Measure environmental benefits of recycling
 - **Statistics Visualization**: Interactive charts showing global e-waste data
 
-### 🚚 **Pickup Services**
+### **Pickup Services**
 - **Schedule Pickups**: Book convenient pickup times for your location
 - **Multiple Device Support**: Handle various electronic items
 - **Image Upload**: Visual documentation of items for pickup
 - **Real-time Tracking**: Monitor pickup status and completion
 
-### 📚 **Educational Resources**
+### **Educational Resources**
 - **E-Waste Guidelines**: Learn proper disposal methods and regulations
 - **Environmental Impact Education**: Understand the consequences of improper disposal
 - **Interactive Timeline**: Step-by-step recycling process visualization
 - **FAQ Section**: Comprehensive answers to common questions
 
-### 👥 **User Management**
+### **User Management**
 - **Multi-role Support**: Separate dashboards for users, managers, and administrators
 - **Secure Authentication**: Password-protected accounts with session management
 - **Profile Management**: Track personal recycling history and achievements
 - **Notification System**: Stay updated on pickup schedules and environmental tips
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 ### Backend
 - **PHP 7.4+**: Server-side logic and database interactions
@@ -55,7 +55,7 @@ ELocate is a comprehensive E-Waste Management System designed to help individual
 ### Additional Tools
 - **XAMPP**: Local development environment
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 - XAMPP/WAMP/LAMP stack
@@ -224,7 +224,7 @@ We welcome contributions to improve ELocate! Here's how you can help:
 
 This project is licensed under the MIT License.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Certified Recycling Partners**: 34+ verified e-waste facilities across Tamil Nadu
 - **Environmental Organizations**: For guidelines and best practices
